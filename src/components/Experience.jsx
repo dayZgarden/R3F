@@ -2,6 +2,8 @@ import { useFrame, useThree } from "react-three-fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import { MeshReflectorMaterial, Float, Text, Html, TransformControls, OrbitControls, PivotControls } from "@react-three/drei";
+import { button, useControls } from "leva";
+import { Perf } from "r3f-perf";
 
 const Experience = () => {
 
@@ -9,21 +11,26 @@ const Experience = () => {
     const cube = useRef();
     const groupRef = useRef();
 
+    const {perfVisible} = useControls({
+        perfVisible: false
+    })
 
-    useFrame((state, delta) => {
-        // cube.current.rotation.y += delta;
-        // groupRef.current.rotation.y += delta;
+    const {position, color, visible } = useControls('sphere', {
+        position: {
+            value: { x: -2, y: 0,},
+            step: 0.01
+        },
+        color: '#ff0000',
+        visible: true,
+        clickMe: button(() => { console.log('clicked') }),
 
-        // const angle = state.clock.getElapsedTime();
-        // camera.position.x = Math.sin(angle) *8 ;
-        // camera.position.z = Math.cos(angle) *8 ;
-        // camera.lookAt(0,0,0);
-    });
+    })
     
 
     return (
         <>
 
+            {perfVisible && <Perf position='top-left'/>}
             <OrbitControls makeDefault enableDamping={true} />
             <directionalLight position={[1,2,3]} intensity={2}/>
             <ambientLight intensity={0.5} />
@@ -36,9 +43,9 @@ const Experience = () => {
                     fixed={true}
                     scale={100}
                     >
-                <mesh ref={sphere} position={[-2, 0, 0]}>
+                <mesh visible={visible} ref={sphere} position={[ position.x, position.y, 0 ]}>
                     <sphereGeometry />
-                    <meshStandardMaterial args={[{ color: "darkorange" }]} />
+                    <meshStandardMaterial args={[{ color: color }]} />
                     <Html 
                         wrapperClass="label" 
                         position={[1,1,0]}

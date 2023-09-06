@@ -3,11 +3,13 @@ import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import Experience from "./components/Experience";
 import * as THREE from "three";
+import { Leva } from "leva";
 
 function App() {
 
     return (
       <>
+        <Leva collapsed/>
         <Canvas
           gl = {{
             antialias: true,
