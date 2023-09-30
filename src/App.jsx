@@ -7,10 +7,13 @@ import { Leva } from "leva";
 
 function App() {
 
+
+
     return (
       <>
         <Leva collapsed/>
         <Canvas
+          shadows
           gl = {{
             antialias: true,
             toneMapping: THREE.ACESFilmicToneMapping,
